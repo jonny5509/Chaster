@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/jonny5509
+    about: Please do not post security vulnerabilities or sensitive credentials in public issues. Contact the repository maintainer through GitHub.
