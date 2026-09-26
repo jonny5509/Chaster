@@ -1,45 +1,48 @@
 # Chaster for Home Assistant
 
-A HACS custom integration for the [Chaster](https://chaster.app/) Public API, bringing your Chaster locks, timers, messages, permissions, and lock controls into Home Assistant.
+A Home Assistant custom integration for the [Chaster](https://chaster.app/) Public API.
 
-> **Important:** Chaster remains the authority for account permissions and safety restrictions. This integration does not bypass Chaster permissions or API restrictions.
+It brings Chaster lock information, timing, permissions, messages, history, and supported lock controls into Home Assistant through a HACS-compatible integration.
 
-## Features
+> **Important:** Chaster remains the authority for authentication, permissions, lock rules, safety restrictions, and API access. This integration does not bypass Chaster restrictions.
 
-- 🔐 Developer-token authentication through the Home Assistant config flow
+## ✨ Features
+
+- 🔐 Developer-token authentication through Home Assistant Config Flow
 - 🔄 Automatic reauthentication when a token expires or is revoked
-- 👤 Automatic role detection with:
-  - **Auto**
-  - **Wearer**
-  - **Keyholder**
-  - **Both**
+- 👤 Automatic role detection:
+  - Auto
+  - Wearer
+  - Keyholder
+  - Both
 - 🔒 Current-lock entity that follows the active lock
 - 📜 Historical wearer and keyholder lock sensors
-- 🤝 Shared-lock support when the Chaster account/API token has access
-- 💬 Messaging data and a generic message service
+- 🤝 Shared-lock support when permitted by the API/account
+- 💬 Messaging data and message service
 - 🕒 Current-lock history diagnostics
-- 🎛️ Lock controls for:
+- 🎛️ Supported lock controls:
   - Refresh
   - Freeze
   - Unfreeze
   - Unlock
   - Emergency unlock
   - Archive
-- ➕ `chaster.add_time` service
-- ➖ `chaster.remove_time` service
+- ➕ `chaster.add_time`
+- ➖ `chaster.remove_time`
 - 🧩 Generic `chaster.api_request` service for documented API operations
 - 🧩 Generic `chaster.lock_action` service for supported lock endpoints
 - 📡 Home Assistant events for API responses, lock actions, and messages
 - ⚙️ Configurable polling interval and optional features
 
-## Requirements
+## 📋 Requirements
 
-- Home Assistant with HACS installed
+- Home Assistant **2024.1.0 or newer**
+- [HACS](https://hacs.xyz/) installed
 - A Chaster account
-- A Chaster developer/API token with the required API access
+- A Chaster developer/API token with the required scopes
 - Network access from Home Assistant to the Chaster API
 
-## Installation
+## 📦 Installation
 
 ### HACS
 
@@ -51,6 +54,10 @@ A HACS custom integration for the [Chaster](https://chaster.app/) Public API, br
 6. Search for **Chaster**.
 7. Enter your Chaster developer token.
 
+If the repository is not listed in HACS, add this repository as a custom repository:
+
+`https://github.com/jonny5509/Chaster`
+
 ### Manual installation
 
 Copy the `custom_components/chaster` directory into:
@@ -59,55 +66,57 @@ Copy the `custom_components/chaster` directory into:
 /config/custom_components/chaster
 ```
 
-Then restart Home Assistant and add **Chaster** from **Settings → Devices & services**.
+Restart Home Assistant, then add **Chaster** from **Settings → Devices & services**.
 
-## Authentication
+## 🔑 Authentication
 
-This integration uses a **Chaster developer token** directly. OAuth, browser login, client IDs, client secrets, and OAuth callbacks are not required.
+This integration uses a **Chaster developer token**.
 
-### Get a developer token
+OAuth, browser login, client IDs, client secrets, and OAuth callbacks are not required.
+
+### Getting a developer token
 
 1. Open the [Chaster developer area](https://chaster.app/developers).
-2. Request API access if you have not already been approved.
+2. Request API access if required.
 3. Open the **Developer interface**.
 4. Create or open an application.
-5. Select **Tokens** in the left sidebar.
-6. Click **Generate a developer token**.
-7. Copy the token and enter it when configuring the Home Assistant integration.
+5. Select **Tokens**.
+6. Generate a developer token.
+7. Copy the token and enter it during Home Assistant setup.
 
-**Keep your token private.** Never post it in GitHub issues, forums, Discord, screenshots, or other public locations.
+**Keep your token private.** Never commit it to Git or post it in issues, screenshots, forums, or chat.
 
-Official Chaster documentation:
+### Official Chaster API documentation
 
 - [Getting started](https://docs.chaster.app/api/basics/getting-started/)
 - [Developer tokens](https://docs.chaster.app/api/public-api/developer-token/)
 - [Public API endpoints](https://docs.chaster.app/api/public-api/endpoints/)
 - [API scopes](https://docs.chaster.app/api/reference/scopes/)
 
-## Configuration
+## ⚙️ Configuration
 
-After adding the integration, open:
+After installation:
 
 **Settings → Devices & services → Chaster → Configure**
 
-The available options include:
+Available options include:
 
 | Option | Description |
 | --- | --- |
-| **Polling interval** | How often Home Assistant refreshes Chaster data. |
-| **Role mode** | Automatically detect the account role or force Wearer, Keyholder, or Both. |
-| **Keyholder features** | Enable keyholder-related entities and data. |
-| **Shared locks** | Enable shared-lock support when available. |
-| **Messaging** | Enable Chaster messaging data/services. |
-| **Lock actions** | Enable actions that modify or control locks. |
+| **Polling interval** | How often Chaster data is refreshed |
+| **Role mode** | Auto, Wearer, Keyholder, or Both |
+| **Keyholder features** | Enables keyholder-related entities and data |
+| **Shared locks** | Enables shared-lock support when available |
+| **Messaging** | Enables messaging data/services |
+| **Lock actions** | Enables supported lock-control actions |
 
 The polling interval can be configured between **30 and 3600 seconds**.
 
-## Services
+## 🛠️ Services
 
 ### `chaster.add_time`
 
-Adds time to a Chaster lock, subject to the permissions granted by Chaster.
+Adds time to a lock, subject to Chaster permissions.
 
 ```yaml
 action: chaster.add_time
@@ -118,7 +127,7 @@ data:
 
 ### `chaster.remove_time`
 
-Removes time from a Chaster lock, subject to the permissions granted by Chaster.
+Removes time from a lock, subject to Chaster permissions.
 
 ```yaml
 action: chaster.remove_time
@@ -155,11 +164,11 @@ data:
   body: {}
 ```
 
-Use the official Chaster API documentation as the source of truth for endpoint paths, request bodies, responses, and permissions.
+Use the official Chaster API documentation as the source of truth for endpoint paths, request bodies, responses, and scopes.
 
 ### `chaster.send_message`
 
-Sends a message using a Chaster conversation endpoint.
+Sends a message using a supported Chaster conversation endpoint.
 
 ```yaml
 action: chaster.send_message
@@ -169,9 +178,7 @@ data:
     # documented Chaster message payload
 ```
 
-## Home Assistant events
-
-The integration exposes events that can be useful in automations.
+## 📡 Home Assistant events
 
 ### `chaster_api_response`
 
@@ -189,8 +196,6 @@ result: ...
 
 Fired after a lock action or time change.
 
-Example event data:
-
 ```yaml
 lock_id: LOCK_ID
 action: add_time
@@ -202,13 +207,11 @@ result: ...
 
 Fired after sending a message.
 
-Example event data:
-
 ```yaml
 result: ...
 ```
 
-## Permissions and safety
+## 🔒 Permissions and safety
 
 Chaster is authoritative for all account and lock permissions.
 
@@ -224,19 +227,17 @@ The integration does **not** attempt to bypass:
 - Freeze/unfreeze restrictions
 - Unlock restrictions
 
-If Chaster rejects an operation, the integration will not override that decision.
+If Chaster rejects an operation, the integration does not override that decision.
 
-Where the API provides permission information, the integration exposes it through the relevant lock entities.
-
-## Existing installations
+## 🔄 Existing installations
 
 The integration stores the developer token as `token`.
 
-Existing installations using the developer-token configuration can continue to use their stored token.
-
 If you are upgrading from an older OAuth-based version, remove the old Chaster integration and add it again using a developer token.
 
-## Development
+After updating through HACS, restart Home Assistant so the new integration version is loaded.
+
+## 🧑‍💻 Development
 
 The Home Assistant integration lives in:
 
@@ -247,29 +248,19 @@ custom_components/chaster/
 The project uses:
 
 - Python
-- Home Assistant config entries and config flow
+- Home Assistant Config Entries and Config Flow
 - Home Assistant DataUpdateCoordinator
 - HACS
 - GitHub Actions
 
-Validation includes:
+Validation includes Home Assistant **hassfest**, HACS validation, and Python bytecode compilation.
 
-- Home Assistant **hassfest**
-- HACS validation
-- Python bytecode compilation
+## 📁 Repository
 
-## Repository
+Source code and issue tracking:
 
-Source code and issue tracking are available on GitHub:
+https://github.com/jonny5509/Chaster
 
-https://github.com/jonny5509/Chaster-ha
-
-## Chaster documentation
-
-For API behaviour, supported endpoints, request formats, scopes, and permissions, always refer to the official Chaster documentation:
-
-https://docs.chaster.app/api/public-api/endpoints/
-
-## License
+## 📄 License
 
 MIT License. See [LICENSE](LICENSE).
