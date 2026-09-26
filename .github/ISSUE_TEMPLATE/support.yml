@@ -1,0 +1,72 @@
+name: Support Request
+description: Ask for help with setup, configuration, or usage.
+title: "[Support]: "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For security vulnerabilities, please follow the project's security reporting instructions rather than posting sensitive details publicly.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What do you need help with?
+      description: Clearly describe the question or problem you are trying to solve.
+    validations:
+      required: true
+
+  - type: input
+    id: integration-version
+    attributes:
+      label: Integration version
+      placeholder: "1.3.8"
+    validations:
+      required: true
+
+  - type: input
+    id: home-assistant-version
+    attributes:
+      label: Home Assistant version
+      placeholder: "2026.9.x"
+    validations:
+      required: true
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Relevant configuration
+      description: Include relevant configuration or setup details, but remove credentials and sensitive information.
+      render: yaml
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or errors
+      description: Include relevant logs and remove sensitive information.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add screenshots or anything else that may help.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues for an answer.
+          required: true
+        - label: I have removed passwords, tokens, personal information, and other sensitive data.
+          required: true
+        - label: I have read and agree to follow the project's Code of Conduct.
+          required: true
